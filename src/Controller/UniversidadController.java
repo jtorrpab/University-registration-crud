@@ -1,4 +1,6 @@
 package Controller;
+import java.sql.ResultSet;
+//import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import Model.Dao.ConexionDB;
@@ -20,17 +22,25 @@ public class UniversidadController {
         boolean insert = Registro_Universidad.Insert(conexionDB);
         if(insert){
             this.universidades.add(Registro_Universidad);
-            System.out.println("La Universidad se registro exitosamente");
+            System.out.println("La Universidad se añadió correctamente");
         }
         
         return insert;
     }
 
-    public void UpdateUniversidad(){
-
+    public boolean UpdateUniversidadByNit(ConexionDB conexion, String nombre, String nit, String direccion, String email){
+        return UniversidadDao.UperCaseByNit(conexion, nombre, nit, direccion, email);
     }
 
-    public void ReadUniversidad(){
+    public boolean UpdateUniversidadByName(ConexionDB conexion, String nombre, String nit, String direccion, String email){
+        return UniversidadDao.UperCaseByName(conexion, nombre, nit, direccion, email);
+    }
+
+    public ResultSet ReadUniversidadByNit(ConexionDB conexion, String nit){
+        return null;
+    }
+
+    public void ReadUniversidadByName(){
 
     }
 
