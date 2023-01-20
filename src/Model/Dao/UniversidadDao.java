@@ -2,6 +2,7 @@ package Model.Dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
 import Model.Universidad;
 
 public class UniversidadDao extends Universidad {
@@ -9,9 +10,8 @@ public class UniversidadDao extends Universidad {
     public UniversidadDao(String nombre, String nit, String direccion, String email) {
         super(nombre, nit, direccion, email);
     }
-
-    //#region Consultas SQL
-
+    //ACCIONES  
+    //#region Create
     public boolean Insert(ConexionDB conexion){
         boolean insert = false;
         try {
@@ -33,7 +33,48 @@ public class UniversidadDao extends Universidad {
             }
         return insert;
     }
+    //#endregion
 
+    //#region Read
+    public static ResultSet SelectAll(ConexionDB conexion){
+        ResultSet result = null;
+            try {
+                String query = "SELECT * FROM universidades";
+                result = conexion.getConexion().createStatement().executeQuery(query);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("No se pudo seleccionar ninguna universidad");
+            }finally{
+                conexion.CloseConexion();
+            }
+        return result;
+    }
+
+    public static ResultSet ReadByNit(ConexionDB conexion, String nit){
+        ResultSet resultbynit = null;
+        try {
+            String query ="SELECT * FROM universidades WHERE nit = ?";
+            PreparedStatement pst = conexion.getConexion().prepareStatement(query);
+            pst.setString(1, nit);
+            resultbynit = pst.executeQuery();
+            System.out.println(resultbynit);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Ups! Hubo un problema al seleccionar la universidad " + nit);            
+        }finally{
+            conexion.CloseConexion();
+        }
+        return resultbynit;
+    }
+
+    public static ResultSet ReadByName(ConexionDB conexion, String nombre){
+        ResultSet read = null;
+
+        return read;
+    }
+    //#endregion
+
+    //#region Update
     public static boolean UperCaseByNit(ConexionDB conexion, String nombre, String nit, String direccion, String email){
         boolean upercasenit = false;
         try {
@@ -81,23 +122,49 @@ public class UniversidadDao extends Universidad {
         }
         return upercasename;
     }
+    //#endregion
 
-    public static ResultSet ReadByNit(ConexionDB conexion, String nit){
-        ResultSet resultbynit = null;
-
-        return resultbynit;
+    //#region Delete
+    public static boolean DeleteByNit(ConexionDB conexion, String nit){
+        boolean deletebynit = false;
+        try {
+            String query = "DELETE FROM universidades WHERE nit= ?";
+            PreparedStatement pst = conexion.getConexion().prepareStatement(query);
+            pst.setString(1, nit);
+            deletebynit = pst.executeUpdate() == 1 ? true : false;
+            if(deletebynit){
+                System.out.println("La universidad " + nit + " se elimino exitosamente");
+            }else{
+                System.out.println("Ups! No se pudo eleiminar la universidad " + nit);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Ups! Hubo un problema al eleiminar la universidad " + nit);
+        }finally{
+            conexion.CloseConexion();
+        }
+        return deletebynit;
     }
 
-    public static ResultSet ReadByName(ConexionDB conexion, String nombre){
-        ResultSet read = null;
-
-        return read;
+    public static boolean DeleteByName(ConexionDB conexion, String nombre){
+        boolean deletebyname = false;
+        try {
+            String query = "DELETE FROM universidades WHERE nombre= ?";
+            PreparedStatement pst = conexion.getConexion().prepareStatement(query);
+            pst.setString(1, nombre);
+            deletebyname = pst.executeUpdate() == 1 ? true : false;
+            if(deletebyname){
+                System.out.println("La universidad " + nombre + " se elimino exitosamente");
+            }else{
+                System.out.println("Ups! No se pudo eleiminar la universidad " + nombre);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Ups! Hubo un problema al eleiminar la universidad " + nombre);
+        }finally{
+            conexion.CloseConexion();
+        }
+        return deletebyname;
     }
-
-    public boolean Delete(){
-        boolean delete = false;
-
-        return delete;
-    }
-    //#endregion Consultas SQL 
+    //#endregion
 }

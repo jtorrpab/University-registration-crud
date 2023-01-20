@@ -36,15 +36,23 @@ public class UniversidadController {
         return UniversidadDao.UperCaseByName(conexion, nombre, nit, direccion, email);
     }
 
+    public ResultSet SelectAll (ConexionDB conexion){
+        return UniversidadDao.SelectAll(conexion);
+    }
+
     public ResultSet ReadUniversidadByNit(ConexionDB conexion, String nit){
-        return null;
+        return UniversidadDao.ReadByNit(conexion, nit);
     }
 
     public void ReadUniversidadByName(){
 
     }
 
-    public void DeleteUniversidad(){
+    public boolean DeleteUniversidadByNit(ConexionDB conexion, String nit){
+        return UniversidadDao.DeleteByNit(conexion, nit);
+    }
 
+    public boolean DeleteUniversidadByName(ConexionDB conexion, String nombre){
+        return UniversidadDao.DeleteByName(conexion, nombre);
     }
 }
