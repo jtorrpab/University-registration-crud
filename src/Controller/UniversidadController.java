@@ -44,8 +44,8 @@ public class UniversidadController {
         return UniversidadDao.ReadByNit(conexion, nit);
     }
 
-    public void ReadUniversidadByName(){
-
+    public static ResultSet ReadUniversidadByName(ConexionDB conexion, String nombre){
+        return UniversidadDao.ReadByName(conexion, nombre);
     }
 
     public boolean DeleteUniversidadByNit(ConexionDB conexion, String nit){
@@ -54,5 +54,9 @@ public class UniversidadController {
 
     public boolean DeleteUniversidadByName(ConexionDB conexion, String nombre){
         return UniversidadDao.DeleteByName(conexion, nombre);
+    }
+
+    public boolean DeleteAllUniversidades(ConexionDB conexion){
+        return UniversidadDao.DeleteAll(conexion);
     }
 }

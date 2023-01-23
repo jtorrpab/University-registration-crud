@@ -41,6 +41,16 @@ public class UniversidadDao extends Universidad {
             try {
                 String query = "SELECT * FROM universidades";
                 result = conexion.getConexion().createStatement().executeQuery(query);
+                System.out.println("\n-------- Las universidades seleccionadas son -------- ");
+                while(result.next()){   
+                    String nit = result.getString(1);
+                    String nombre = result.getString(2);
+                    String direccion = result.getString(3);
+                    String email = result.getString(4);
+                    System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
+                    System.out.println(" ----------------------------------------------------- ");
+                }
+                result.close();
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("No se pudo seleccionar ninguna universidad");
@@ -57,7 +67,15 @@ public class UniversidadDao extends Universidad {
             PreparedStatement pst = conexion.getConexion().prepareStatement(query);
             pst.setString(1, nit);
             resultbynit = pst.executeQuery();
-            System.out.println(resultbynit);
+            System.out.println("\n-------- La universidad seleccionada es: -------- ");
+            while(resultbynit.next()){
+                String nombre = resultbynit.getString(2);
+                String direccion = resultbynit.getString(3);
+                String email = resultbynit.getString(4);
+                System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
+                System.out.println(" ----------------------------------------------------- ");
+            }
+            resultbynit.close();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Ups! Hubo un problema al seleccionar la universidad " + nit);            
@@ -68,9 +86,28 @@ public class UniversidadDao extends Universidad {
     }
 
     public static ResultSet ReadByName(ConexionDB conexion, String nombre){
-        ResultSet read = null;
-
-        return read;
+        ResultSet readbyname = null;
+        try {
+            String query = "SELECT * FROM universidades WHERE nombre = ?";
+            PreparedStatement pst = conexion.getConexion().prepareStatement(query);
+            pst.setString(1, nombre);
+            readbyname = pst.executeQuery();
+            System.out.println("\n-------- La universidad seleccionada es: -------- ");
+            while(readbyname.next()){
+                String nit = readbyname.getString(1);
+                String direccion =  readbyname.getString(3);
+                String email = readbyname.getString(4);
+                System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
+                System.out.println(" ----------------------------------------------------- ");
+            }
+            readbyname.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Ups! Hubo un problema al seleccionar la universidad " + nombre);
+        }finally{
+            conexion.CloseConexion();
+        }
+        return readbyname;
     }
     //#endregion
 
@@ -165,6 +202,26 @@ public class UniversidadDao extends Universidad {
             conexion.CloseConexion();
         }
         return deletebyname;
+    }
+
+    public static boolean DeleteAll(ConexionDB conexion){   
+        boolean deleteall = false;
+        try {
+            String query = "DELETE FROM universidades";
+            PreparedStatement pst = conexion.getConexion().prepareStatement(query);
+            deleteall = pst.executeUpdate() == 0 ? true : false;
+            if(deleteall){
+                System.out.println("Se han eliminado todos los registros");
+            }else{
+                System.out.println("No se han eliminado los registors");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Ups! No se pudieron eliminar los registros");
+        }finally{
+            conexion.CloseConexion();
+        }
+        return deleteall;
     }
     //#endregion
 }
