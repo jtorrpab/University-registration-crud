@@ -26,11 +26,9 @@ public class UniversidadDao extends Universidad {
                 System.out.println("La Universidad se registro exitosamente");
             }
         } catch (Exception e) {
-            System.out.println("Ups! Hubo un problema al intentar registrar la universidad");
+            System.out.println("Catch! Hubo un problema al intentar registrar la universidad");
             e.printStackTrace();
-            } finally{
-                conexion.CloseConexion();
-            }
+            } 
         return insert;
     }
     //#endregion
@@ -41,21 +39,9 @@ public class UniversidadDao extends Universidad {
             try {
                 String query = "SELECT * FROM universidades";
                 result = conexion.getConexion().createStatement().executeQuery(query);
-                System.out.println("\n-------- Las universidades seleccionadas son -------- ");
-                while(result.next()){   
-                    String nit = result.getString(1);
-                    String nombre = result.getString(2);
-                    String direccion = result.getString(3);
-                    String email = result.getString(4);
-                    System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
-                    System.out.println(" ----------------------------------------------------- ");
-                }
-                result.close();
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("No se pudo seleccionar ninguna universidad");
-            }finally{
-                conexion.CloseConexion();
             }
         return result;
     }

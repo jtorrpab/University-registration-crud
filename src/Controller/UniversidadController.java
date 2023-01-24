@@ -22,9 +22,7 @@ public class UniversidadController {
         boolean insert = Registro_Universidad.Insert(conexionDB);
         if(insert){
             this.universidades.add(Registro_Universidad);
-            System.out.println("La Universidad se añadió correctamente");
         }
-        
         return insert;
     }
 
@@ -36,8 +34,8 @@ public class UniversidadController {
         return UniversidadDao.UperCaseByName(conexion, nombre, nit, direccion, email);
     }
 
-    public ResultSet SelectAll (ConexionDB conexion){
-        return UniversidadDao.SelectAll(conexion);
+    public ResultSet SelectAll (){
+        return UniversidadDao.SelectAll(conexionDB);
     }
 
     public ResultSet ReadUniversidadByNit(ConexionDB conexion, String nit){
