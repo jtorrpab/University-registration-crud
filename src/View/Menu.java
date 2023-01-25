@@ -14,8 +14,8 @@ public class Menu {
 
     public void MenuPrincipal(ConexionDB conexion){
 
-        UniversidadView uView = new UniversidadView(uController);
-        String mensaje =  "\n-----------------BIENVENIDOS----------------\n";
+        UniversidadView uView = new UniversidadView(uController, conexion);
+        String mensaje =  "\n---------------BIENVENIDOS--------------------\n";
         mensaje += "1) Crear universidad\n";
         mensaje += "2) Mostrar todas las univerisdades\n";
         mensaje += "3) Consultar universidad\n";
@@ -38,7 +38,7 @@ public class Menu {
                 uView.MostrarUniversidad();
                 break;
                 case 3:
-                uView.ConsultarUniversidad(sc);
+                uView.ConsultarUniversidad();
                 break;
                 }
             }

@@ -22,9 +22,6 @@ public class UniversidadDao extends Universidad {
             pst.setString(3, getDireccion());
             pst.setString(4, getEmail());
             insert = pst.executeUpdate() == 1 ? true : false;
-            if(insert){
-                System.out.println("La Universidad se registro exitosamente");
-            }
         } catch (Exception e) {
             System.out.println("Catch! Hubo un problema al intentar registrar la universidad");
             e.printStackTrace();
@@ -53,20 +50,9 @@ public class UniversidadDao extends Universidad {
             PreparedStatement pst = conexion.getConexion().prepareStatement(query);
             pst.setString(1, nit);
             resultbynit = pst.executeQuery();
-            System.out.println("\n-------- La universidad seleccionada es: -------- ");
-            while(resultbynit.next()){
-                String nombre = resultbynit.getString(2);
-                String direccion = resultbynit.getString(3);
-                String email = resultbynit.getString(4);
-                System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
-                System.out.println(" ----------------------------------------------------- ");
-            }
-            resultbynit.close();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Ups! Hubo un problema al seleccionar la universidad " + nit);            
-        }finally{
-            conexion.CloseConexion();
         }
         return resultbynit;
     }
@@ -78,20 +64,9 @@ public class UniversidadDao extends Universidad {
             PreparedStatement pst = conexion.getConexion().prepareStatement(query);
             pst.setString(1, nombre);
             readbyname = pst.executeQuery();
-            System.out.println("\n-------- La universidad seleccionada es: -------- ");
-            while(readbyname.next()){
-                String nit = readbyname.getString(1);
-                String direccion =  readbyname.getString(3);
-                String email = readbyname.getString(4);
-                System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
-                System.out.println(" ----------------------------------------------------- ");
-            }
-            readbyname.close();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Ups! Hubo un problema al seleccionar la universidad " + nombre);
-        }finally{
-            conexion.CloseConexion();
         }
         return readbyname;
     }

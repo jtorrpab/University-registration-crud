@@ -42,7 +42,7 @@ public class UniversidadController {
         return UniversidadDao.ReadByNit(conexion, nit);
     }
 
-    public static ResultSet ReadUniversidadByName(ConexionDB conexion, String nombre){
+    public ResultSet ReadUniversidadByName(ConexionDB conexion, String nombre){
         return UniversidadDao.ReadByName(conexion, nombre);
     }
 
