@@ -2,6 +2,9 @@ package View;
 
 import java.sql.ResultSet;
 import java.util.Scanner;
+
+import javax.swing.plaf.synth.SynthSplitPaneUI;
+
 // import javax.swing.JOptionPane;
 // import org.w3c.dom.traversal.NodeIterator;
 import Controller.UniversidadController;
@@ -147,6 +150,123 @@ public class UniversidadView {
             e.printStackTrace();
             System.out.println("Ups! No se pudo consultar la Universidad " + nombre);
         }
+    }
+//#endregion
+
+//#region Update
+    public void ActualizarUniversidad(){
+        String mensaje = "\n--------------- ACTUALIZAR UNIVERSIDAD-------------------------";
+        mensaje += "\n1) Actualizar universidad por Nit";
+        mensaje += "\n2) Actualizar universidad por Nombre";
+        mensaje += "\n-1) <-";
+        mensaje += "\n>>> ";
+
+        int opcion = 0;
+        Scanner sc = new Scanner(System.in);
+        try {
+            while(opcion != -1){
+                System.out.print(mensaje);
+                opcion = sc.nextInt();
+                switch (opcion){
+                    case 1:
+                    ActualizarXNit(sc, conexion);
+                    break;
+                    case 2:
+                    ActualizarXNombre(sc, conexion);
+                    break;
+                }
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Catch! No se pudo acceder a la actualización");
+        }
+    }
+
+    public void ActualizarXNit(Scanner sc, ConexionDB conexionDB){
+        System.out.println("\n--------------- ACTUALIZAR UNIVERSIDAD POR NIT ---------------------");
+        System.out.println("\nPor favor ingrese el nit de la universidad que desea actualizar.");
+        System.out.print("Nit: ");
+        String nit = sc.next();
+        ResultSet uni = uController.ReadUniversidadByNit(conexionDB, nit);
+        try {
+            System.out.println("\n--------------- Universidad seleccionada ---------------------");
+            while(uni.next()){
+                String nit_uni = uni.getString(1);
+                String nombre_uni = uni.getString(2);
+                String dir_uni = uni.getString(3);
+                String email_uni = uni.getString(4);
+                System.out.println(" Nit: " + nit_uni + "\n Nombre: " + nombre_uni + "\n Direccion: " + dir_uni + "\n Email: " + email_uni);
+                System.out.println(" ----------------------------------------------------- ");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Catch! No se puede mostrar la universidad seleccionada");
+        }
+        sc.nextLine();
+        System.out.println("\nPor favor ingrese los siguientes datos para actualizar la universidad " + nit);
+        System.out.print("Nombre: ");
+        String nombre = sc.next();
+        sc.nextLine();
+        System.out.print("Dirección: ");
+        String direccion = sc.next();
+        sc.nextLine();
+        System.out.print("Email: ");
+        String email = sc.next();
+        sc.nextLine();
+        boolean universidad = uController.UpdateUniversidadByNit(conexionDB, nombre, nit, direccion, email);
+        if(universidad){
+            System.out.println("Universidad " + nit + " actualizada exitosamente");
+            System.out.println("\n------------------ Universidad actualizada ------------- ");
+            System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
+            System.out.println(" ----------------------------------------------------- ");
+        }
+        else{
+            System.out.println("Ups! No se pudo actualizar la univesidad");
+        }
+    }
+
+    public void ActualizarXNombre(Scanner sc, ConexionDB conexionDB){
+        System.out.println("\n--------------- ACTUALIZAR UNIVERSIDAD POR NIT ---------------------");
+        System.out.println("\nPor favor ingrese el nombre de la universidad que desea actualizar.");
+        System.out.print("Nombre: ");
+        String nombre = sc.next();
+        sc.nextLine();
+        System.out.println("\nPor favor ingrese los siguientes datos para actualizar la universidad " + nombre);
+        ResultSet uni = uController.ReadUniversidadByName(conexionDB, nombre);
+        try {
+            System.out.println("\n--------------- Universidad seleccionada ---------------------");
+            while(uni.next()){
+                String nit_uni = uni.getString(1);
+                String nombre_uni = uni.getString(2);
+                String dir_uni = uni.getString(3);
+                String email_uni = uni.getString(4);
+                System.out.println(" Nit: " + nit_uni + "\n Nombre: " + nombre_uni + "\n Direccion: " + dir_uni + "\n Email: " + email_uni);
+                System.out.println(" ----------------------------------------------------- ");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Catch! No se puede mostrar la universidad seleccionada");
+        }
+        System.out.print("Nit: ");
+        String nit = sc.next();
+        sc.nextLine();
+        System.out.print("Dirección: ");
+        String direccion = sc.next();
+        sc.nextLine();
+        System.out.print("Email: ");
+        String email = sc.next();
+        sc.nextLine();
+        boolean result = uController.UpdateUniversidadByName(conexionDB, nombre, nit, direccion, email);
+        if(result){
+            System.out.println("Universidad " + nit + " actualizada exitosamente");
+            System.out.println("\n------------------ Universidad actualizada ------------- ");
+            System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
+            System.out.println(" ----------------------------------------------------- ");
+        }else{
+            System.out.println("Ups! No se pudo actualizar la univesidad");
+        }
+
     }
 //#endregion
 }

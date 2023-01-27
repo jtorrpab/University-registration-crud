@@ -40,6 +40,9 @@ public class Menu {
                 case 3:
                 uView.ConsultarUniversidad();
                 break;
+                case 4:
+                uView.ActualizarUniversidad();
+                break;
                 }
             }
             conexion.CloseConexion();

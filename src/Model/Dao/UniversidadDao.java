@@ -83,16 +83,9 @@ public class UniversidadDao extends Universidad {
             pst.setString(3, email);
             pst.setString(4, nit);
             upercasenit = pst.executeUpdate() == 1 ? true : false;
-            if(upercasenit){
-                System.out.println("La Universidad se actualizó exitosamente");
-            }else{
-                System.out.println("Universidad no encontrada");
-            }
         } catch (Exception e) {
-            System.out.println("Ups! Hubo un problema al intentar actualizar la universidad " + nit);
+            System.out.println("Cath! Hubo un problema al intentar actualizar la universidad " + nit);
             e.printStackTrace();
-        }finally{
-            conexion.CloseConexion();
         }
         return upercasenit;
     }
@@ -107,16 +100,9 @@ public class UniversidadDao extends Universidad {
             pst.setString(3, email);
             pst.setString(4, nombre);
             upercasename = pst.executeUpdate() == 1 ? true : false;
-            if(upercasename){
-                System.out.println("La Universidad se actualizó exitosamente");
-            }else{
-                System.out.println("Universidad no encontrada");
-            }
         } catch (Exception e) {
             System.out.println("Ups! Hubo un problema al intentar actualizar la universidad " + nombre);
             e.printStackTrace();
-        }finally{
-            conexion.CloseConexion();
         }
         return upercasename;
     }
