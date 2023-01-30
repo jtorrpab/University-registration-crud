@@ -116,16 +116,9 @@ public class UniversidadDao extends Universidad {
             PreparedStatement pst = conexion.getConexion().prepareStatement(query);
             pst.setString(1, nit);
             deletebynit = pst.executeUpdate() == 1 ? true : false;
-            if(deletebynit){
-                System.out.println("La universidad " + nit + " se elimino exitosamente");
-            }else{
-                System.out.println("Ups! No se pudo eleiminar la universidad " + nit);
-            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Ups! Hubo un problema al eleiminar la universidad " + nit);
-        }finally{
-            conexion.CloseConexion();
         }
         return deletebynit;
     }
@@ -158,15 +151,13 @@ public class UniversidadDao extends Universidad {
             PreparedStatement pst = conexion.getConexion().prepareStatement(query);
             deleteall = pst.executeUpdate() == 0 ? true : false;
             if(deleteall){
-                System.out.println("Se han eliminado todos los registros");
+                System.out.println("\nSe han eliminado todos los registros");
             }else{
-                System.out.println("No se han eliminado los registors");
+                System.out.println("\nNo se han eliminado los registors");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Ups! No se pudieron eliminar los registros");
-        }finally{
-            conexion.CloseConexion();
+            System.out.println("\nUps! No se pudieron eliminar los registros");
         }
         return deleteall;
     }

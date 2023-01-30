@@ -43,6 +43,9 @@ public class Menu {
                 case 4:
                 uView.ActualizarUniversidad();
                 break;
+                case 5:
+                uView.EliminarUniversidad();
+                break;
                 }
             }
             conexion.CloseConexion();
