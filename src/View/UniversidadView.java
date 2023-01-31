@@ -41,26 +41,26 @@ public class UniversidadView {
         }else{
             System.out.println("\nUps! No se pudo registrar la universidad");
         }
-        String mensaje = "\nDesea crear otra universidad";
-        mensaje += "\n 1) Crear universidad nueva";
-        mensaje += "\n-1) Salir";
-        mensaje += "\n>>> ";
-        int opcion = 0;
-        Scanner sc2 = new Scanner(System.in);
-        try {
-            while(opcion != -1){
-                System.out.print(mensaje);
-                opcion = sc2.nextInt();
-                switch(opcion){
-                    case 1:
-                    CrearUniversidad(sc2);
-                    break;
-                }
-            }
+        // String mensaje = "\nDesea crear otra universidad";
+        // mensaje += "\n 1) Crear universidad nueva";
+        // mensaje += "\n-1) Salir";
+        // mensaje += "\n>>> ";
+        // int opcion = 0;
+        // Scanner sc2 = new Scanner(System.in);
+        // try {
+        //     while(opcion != -1){
+        //         System.out.print(mensaje);
+        //         opcion = sc2.nextInt();
+        //         switch(opcion){
+        //             case 1:
+        //             CrearUniversidad(sc2);
+        //             break;
+        //         }
+        //     }
             
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
         // String encabezado = "-------------CREAR UNIVERSIDAD-----------\n";
         // encabezado += "Por favor ingrese la siguiente informacion\n";
         // // --SOLICITAR DATOS
@@ -346,7 +346,14 @@ public boolean EliminarXNit(Scanner sc, ConexionDB conexionDB){
     mensaje += "\n 1) Eliminar";
     mensaje += "\n-1) Cancelar";
     mensaje += "\n  >>> ";
+
+    String mensaje2 = "\nDesea eliminar otra universidad";
+    mensaje2 += "\n 1) Eliminar";
+    mensaje2 += "\n -1) Salir";
+    mensaje2 += "\n  >>> ";
+
     int opcion = 0;
+    int opcion2 = 0;
     Scanner sca = new Scanner(System.in);
     try {    
         while(opcion != -1){
@@ -355,29 +362,17 @@ public boolean EliminarXNit(Scanner sc, ConexionDB conexionDB){
             switch (opcion){
                 case 1:
                 delete = uController.DeleteUniversidadByNit(conexionDB, nit);
-                break;
-            }
-            if(delete){
-                System.out.println("\nLa universidad " + nit + " se elimino exitosamente");
-                String mensaje2 = "\nDesea eliminar otra universidad";
-                mensaje2 += "\n 1) Eliminar";
-                mensaje2 += "\n-1) Salir";
-                mensaje2 += "\n  >>> ";
-                try {
-                    while(opcion != -1){
-                    System.out.print(mensaje2);
-                    opcion = sca.nextInt();
-                        switch (opcion){
-                            case 1:
-                            EliminarXNit(sca, conexionDB);
-                            break;
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                System.out.print(mensaje2);
+                opcion2 = sca.nextInt();
+                switch (opcion2){
+                    case 1:
+                    EliminarXNit(sca, conexionDB);
+                    break;
+                    case -1:
+                    EliminarUniversidad();
+                    break;
                 }
-            }else{
-                System.out.println("\nEliminación de la universidad Nit: " + nit +" CANCELADA");
+                break;
             }
         }
     } catch (Exception e) {
