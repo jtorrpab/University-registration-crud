@@ -1,6 +1,7 @@
 package View;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 //import javax.swing.plaf.synth.SynthSplitPaneUI;
 // import javax.swing.JOptionPane;
@@ -24,23 +25,16 @@ public class UniversidadView {
         System.out.println("\nPor favor ingrese la siguiente informacion");
         System.out.print("Nit: ");
         String nit = sc.next();
-        sc.nextLine();
         System.out.print("Nombre: ");
         String nombre = sc.next();
-        sc.nextLine();
         System.out.print("Direccion: ");
         String direccion = sc.next();
-        sc.nextLine();
         System.out.print("Email: ");
         String email = sc.next();
-        sc.nextLine();
 
-        boolean insert = uController.CreateUniversidad(nombre, nit, direccion, email);
-        if(insert){
-            System.out.println("\nUniversidad registrada con exito");
-        }else{
-            System.out.println("\nUps! No se pudo registrar la universidad");
-        }
+        uController.CreateUniversidad(nombre.toUpperCase(), nit, direccion, email);
+
+
         // String mensaje = "\nDesea crear otra universidad";
         // mensaje += "\n 1) Crear universidad nueva";
         // mensaje += "\n-1) Salir";
@@ -128,7 +122,6 @@ public class UniversidadView {
         System.out.println("\n--------------- CONSULTA POR NIT ---------------------");
         System.out.print("Nit: ");
         String nit = sc.next();
-        sc.nextLine();
         System.out.println(" ----------------------------------------------------- ");
         ResultSet universidad = uController.ReadUniversidadByNit(conexion, nit);
         try {
@@ -143,7 +136,6 @@ public class UniversidadView {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Ups! No se pudo consultar la Universidad " + nit);
         }
     }
 
@@ -151,7 +143,6 @@ public class UniversidadView {
         System.out.println("\n--------------- CONSULTA POR NOMBRE ---------------------");
         System.out.print("Nombre: ");
         String nombre = sc.next();
-        sc.nextLine();
         System.out.println(" ----------------------------------------------------- ");
         ResultSet universidad = uController.ReadUniversidadByName(conexion, nombre.toUpperCase());
         try {
@@ -171,7 +162,7 @@ public class UniversidadView {
     }
 //#endregion
 
-//#region Update
+//#region Update4
     public void ActualizarUniversidad(){
         String mensaje = "\n--------------- ACTUALIZAR UNIVERSIDAD-------------------------";
         mensaje += "\n1) Actualizar universidad por Nit";
@@ -232,7 +223,7 @@ public class UniversidadView {
         System.out.print("Email: ");
         String email = sc.next();
         sc.nextLine();
-        boolean universidad = uController.UpdateUniversidadByNit(conexionDB, nombre, nit, direccion, email);
+        boolean universidad = uController.UpdateUniversidadByNit(conexionDB, nombre.toUpperCase(), nit, direccion, email);
         if(universidad){
             System.out.println("Universidad " + nit + " actualizada exitosamente");
             System.out.println("\n------------------ Universidad actualizada ------------- ");
@@ -250,7 +241,6 @@ public class UniversidadView {
         System.out.print("Nombre: ");
         String nombre = sc.next();
         sc.nextLine();
-        System.out.println("\nPor favor ingrese los siguientes datos para actualizar la universidad " + nombre);
         ResultSet uni = uController.ReadUniversidadByName(conexionDB, nombre);
         try {
             System.out.println("\n--------------- Universidad seleccionada ---------------------");
@@ -266,6 +256,7 @@ public class UniversidadView {
             e.printStackTrace();
             System.out.println("Catch! No se puede mostrar la universidad seleccionada");
         }
+        System.out.println("\nPor favor ingrese los siguientes datos para actualizar la universidad " + nombre);
         System.out.print("Nit: ");
         String nit = sc.next();
         sc.nextLine();
@@ -277,7 +268,7 @@ public class UniversidadView {
         sc.nextLine();
         boolean result = uController.UpdateUniversidadByName(conexionDB, nombre, nit, direccion, email);
         if(result){
-            System.out.println("Universidad " + nit + " actualizada exitosamente");
+            System.out.println("Universidad " + nombre + " actualizada exitosamente");
             System.out.println("\n------------------ Universidad actualizada ------------- ");
             System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
             System.out.println(" ----------------------------------------------------- ");
@@ -321,8 +312,7 @@ public void EliminarUniversidad(){
     }
 }
 
-public boolean EliminarXNit(Scanner sc, ConexionDB conexionDB){
-    boolean delete = false;
+public void EliminarXNit(Scanner sc, ConexionDB conexionDB){
     System.out.println("\n--------------- Eliminar universidad por Nit ------------- ");
     System.out.println("\nPor favor ingrese el nit de la universidad que desea eliminar");
     System.out.print("Nit: ");
@@ -353,7 +343,6 @@ public boolean EliminarXNit(Scanner sc, ConexionDB conexionDB){
     mensaje2 += "\n  >>> ";
 
     int opcion = 0;
-    int opcion2 = 0;
     Scanner sca = new Scanner(System.in);
     try {    
         while(opcion != -1){
@@ -361,10 +350,10 @@ public boolean EliminarXNit(Scanner sc, ConexionDB conexionDB){
             opcion = sca.nextInt();
             switch (opcion){
                 case 1:
-                delete = uController.DeleteUniversidadByNit(conexionDB, nit);
+                uController.DeleteUniversidadByNit(conexionDB, nit);
                 System.out.print(mensaje2);
-                opcion2 = sca.nextInt();
-                switch (opcion2){
+                opcion = sca.nextInt();
+                switch (opcion){
                     case 1:
                     EliminarXNit(sca, conexionDB);
                     break;
@@ -378,11 +367,62 @@ public boolean EliminarXNit(Scanner sc, ConexionDB conexionDB){
     } catch (Exception e) {
         e.printStackTrace();
     }
-    return delete;
 }
 
 public void EliminarXNombre(Scanner sc, ConexionDB conexionDB){
-    System.out.println("\nFunción en implementación, por favor consulta en unos días\n");
+    System.out.println("\n--------------- Eliminar universidad por Nombre ------------- ");
+    System.out.println("\nPor favor ingrese el nombre de la universidad que desea eliminar");
+    System.out.print("Nombre: ");
+    String nombre = sc.next();
+    ResultSet universidad = uController.ReadUniversidadByName(conexionDB, nombre.toUpperCase());
+    try {
+        while (universidad.next()){
+            String nit_read = universidad.getString("nit");
+            String nombre_read = universidad.getString("nombre");
+            String direccion_read = universidad.getString("direccion");
+            String email_read = universidad.getString("email");
+            System.out.println("\n--------------- Universidad seleccionada -------------- ");
+            System.out.println("Nit: "+ nit_read + "\nNombre: " + nombre_read + "\nDirección: " + direccion_read + "\nEmail: " + email_read);
+            System.out.println("--------------------------------------------------- ");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    String mensaje = "\n--------------------------------------------------- ";
+    mensaje += "\nSeguro desea eliminar la universidad " + nombre;
+    mensaje += "\n 1) Eliminar";
+    mensaje += "\n-1) Cancelar ";
+    mensaje += "\n>>> ";  
+    String mensaje2 = "\n--------------------------------------------------- ";
+    mensaje2 += "\nDesea eliminar otra universidad?";
+    mensaje2 += "\n 1) Eliminar";
+    mensaje2 += "\n-1) Cancelar ";
+    mensaje2 += "\n>>> "; 
+    int opcion = 0;
+    Scanner scn = new Scanner(System.in);
+    try {
+        while(opcion != -1){
+            System.out.println(mensaje);
+            opcion = sc.nextInt();
+            switch(opcion){
+                case 1:
+                uController.DeleteUniversidadByName(conexionDB, nombre.toUpperCase());
+                System.out.println(mensaje2);
+                opcion = sc.nextInt();
+                switch(opcion){
+                    case 1:
+                    EliminarXNombre(scn, conexionDB);
+                    break;
+                    case -1:
+                    EliminarUniversidad();
+                    break;
+                }
+                break;
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 }
 //#endregion
 

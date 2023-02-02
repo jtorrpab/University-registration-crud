@@ -22,6 +22,11 @@ public class UniversidadDao extends Universidad {
             pst.setString(3, getDireccion());
             pst.setString(4, getEmail());
             insert = pst.executeUpdate() == 1 ? true : false;
+            if(insert){
+                System.out.println("\nUniversidad registrada con exito");
+            }else{
+                System.out.println("\nUps! No se pudo registrar la universidad");
+            }
         } catch (Exception e) {
             System.out.println("Catch! Hubo un problema al intentar registrar la universidad");
             e.printStackTrace();
@@ -50,9 +55,14 @@ public class UniversidadDao extends Universidad {
             PreparedStatement pst = conexion.getConexion().prepareStatement(query);
             pst.setString(1, nit);
             resultbynit = pst.executeQuery();
+            if(resultbynit != null){
+                System.out.println("\nUniversidad encontrada");
+            }else{
+                System.out.println("\nUniversidad NO encontrada");
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Ups! Hubo un problema al seleccionar la universidad " + nit);            
+            System.out.println("\nCatch! Hubo un problema al seleccionar la universidad " + nit);            
         }
         return resultbynit;
     }
@@ -64,6 +74,11 @@ public class UniversidadDao extends Universidad {
             PreparedStatement pst = conexion.getConexion().prepareStatement(query);
             pst.setString(1, nombre);
             readbyname = pst.executeQuery();
+            if(readbyname != null){
+                System.out.println("\nUniversidad encontrada");
+            }else{
+                System.out.println("\nUniversidad NO encontrada");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Ups! Hubo un problema al seleccionar la universidad " + nombre);
@@ -123,7 +138,7 @@ public class UniversidadDao extends Universidad {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Ups! Hubo un problema al eleiminar la universidad " + nit);
+            System.out.println("\nUps! Hubo un problema al eleiminar la universidad " + nit);
         }
         return deletebynit;
     }
@@ -136,13 +151,13 @@ public class UniversidadDao extends Universidad {
             pst.setString(1, nombre);
             deletebyname = pst.executeUpdate() == 1 ? true : false;
             if(deletebyname){
-                System.out.println("La universidad " + nombre + " se elimino exitosamente");
+                System.out.println("\nLa universidad " + nombre + " se elimino exitosamente");
             }else{
-                System.out.println("Ups! No se pudo eleiminar la universidad " + nombre);
+                System.out.println("\nUps! No se pudo eleiminar la universidad " + nombre);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Ups! Hubo un problema al eleiminar la universidad " + nombre);
+            System.out.println("\nUps! Hubo un problema al eleiminar la universidad " + nombre);
         }
         return deletebyname;
     }
