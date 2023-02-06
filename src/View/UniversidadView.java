@@ -3,9 +3,6 @@ package View;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
-//import javax.swing.plaf.synth.SynthSplitPaneUI;
-// import javax.swing.JOptionPane;
-// import org.w3c.dom.traversal.NodeIterator;
 import Controller.UniversidadController;
 import Model.Dao.ConexionDB;
 
@@ -31,44 +28,29 @@ public class UniversidadView {
         String direccion = sc.next();
         System.out.print("Email: ");
         String email = sc.next();
-
         uController.CreateUniversidad(nombre.toUpperCase(), nit, direccion, email);
-
-
-        // String mensaje = "\nDesea crear otra universidad";
-        // mensaje += "\n 1) Crear universidad nueva";
-        // mensaje += "\n-1) Salir";
-        // mensaje += "\n>>> ";
-        // int opcion = 0;
-        // Scanner sc2 = new Scanner(System.in);
-        // try {
-        //     while(opcion != -1){
-        //         System.out.print(mensaje);
-        //         opcion = sc2.nextInt();
-        //         switch(opcion){
-        //             case 1:
-        //             CrearUniversidad(sc2);
-        //             break;
-        //         }
-        //     }
-            
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
-        // String encabezado = "-------------CREAR UNIVERSIDAD-----------\n";
-        // encabezado += "Por favor ingrese la siguiente informacion\n";
-        // // --SOLICITAR DATOS
-        // String nit = JOptionPane.showInputDialog(null, encabezado + "Nit: ");
-        // String nombre = JOptionPane.showInputDialog(null, encabezado + "Nombre: ");
-        // String direccion = JOptionPane.showInputDialog(null, encabezado + "Dirección: ");
-        // String email = JOptionPane.showInputDialog(null, encabezado + "Email: ");
-        // // Crear universidad
-        // boolean insert = uController.CreateUniversidad(nit, nombre, direccion, email);
-        // if (insert) {
-        //     JOptionPane.showMessageDialog(null, "\n\nUniversidad creada con exito");
-        // } else {
-        //     JOptionPane.showMessageDialog(null, "\n\nPor favor intenta mas tarde");
-        // }
+        String mensaje = "\nDesea crear otra universidad";
+        mensaje += "\n 1) Crear universidad nueva";
+        mensaje += "\n-1) Salir";
+        mensaje += "\n>>> ";
+        int opcion = 0;
+        Menu menu = new Menu(uController);
+        try {
+            while(opcion != -1){
+                System.out.print(mensaje);
+                opcion = sc.nextInt();
+                switch (opcion){
+                    case 1:
+                    CrearUniversidad(sc);
+                    break;
+                    case -1:
+                    menu.MenuPrincipal(conexion);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 //#endregion
 
@@ -76,14 +58,18 @@ public class UniversidadView {
     public void MostrarUniversidad(){
         ResultSet universidades = uController.SelectAll();
         try {
-            System.out.println("\n---------------UNIVERSIDADES-------------------------");
-            while(universidades.next()){
-                String nit = universidades.getString(1);
-                String nombre = universidades.getString(2);
-                String direccion = universidades.getString(3);
-                String email = universidades.getString(4);
-                System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
-                System.out.println(" ----------------------------------------------------- ");
+            if(universidades != null){
+                System.out.println("\n---------------UNIVERSIDADES-------------------------");
+                while(universidades.next()){
+                    String nit = universidades.getString(1);
+                    String nombre = universidades.getString(2);
+                    String direccion = universidades.getString(3);
+                    String email = universidades.getString(4);
+                    System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
+                    System.out.println(" ----------------------------------------------------- ");
+                }
+            }else{
+                System.out.println("No hay universidades para mostrar");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,14 +111,40 @@ public class UniversidadView {
         System.out.println(" ----------------------------------------------------- ");
         ResultSet universidad = uController.ReadUniversidadByNit(conexion, nit);
         try {
-            System.out.println("\n---------------UNIVERSIDADES-------------------------");
-            while( universidad.next()){
-                String nit_obtenido = universidad.getString(1);
-                String nombre_obtenido = universidad.getString(2);
-                String direccion_obtenido = universidad.getString(3);
-                String email_obtenido = universidad.getString(4);
-                System.out.println(" Nit: " + nit_obtenido + "\n Nombre: " + nombre_obtenido + "\n Direccion: " + direccion_obtenido + "\n Email: " + email_obtenido);
-                System.out.println(" ----------------------------------------------------- ");
+            if(universidad != null){
+                System.out.println("\n---------------UNIVERSIDADES-------------------------");
+                while( universidad.next()){
+                    String nit_obtenido = universidad.getString(1);
+                    String nombre_obtenido = universidad.getString(2);
+                    String direccion_obtenido = universidad.getString(3);
+                    String email_obtenido = universidad.getString(4);
+                    System.out.println(" Nit: " + nit_obtenido + "\n Nombre: " + nombre_obtenido + "\n Direccion: " + direccion_obtenido + "\n Email: " + email_obtenido);
+                    System.out.println(" ----------------------------------------------------- ");
+                }
+            }else{
+                ConsultarUniversidad();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String mensaje = "\n Desea consultar otra universidad";
+        mensaje += "\n 1) Consultar";
+        mensaje += "\n-1) Salir";
+        mensaje += "\n>>> ";
+        int opcion = 0;
+        Menu menu = new Menu(uController);
+        try {
+            while(opcion != -1){
+                System.out.print(mensaje);
+                opcion = sc.nextInt();
+                switch (opcion){
+                    case 1:
+                    ConsultarUniversidad();
+                    break;
+                    case -1:
+                    menu.MenuPrincipal(conexion);
+                    break;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,18 +158,44 @@ public class UniversidadView {
         System.out.println(" ----------------------------------------------------- ");
         ResultSet universidad = uController.ReadUniversidadByName(conexion, nombre.toUpperCase());
         try {
-            System.out.println("\n---------------UNIVERSIDADES-------------------------");
-            while( universidad.next()){
-                String nit_obtenido = universidad.getString(1);
-                String nombre_obtenido = universidad.getString(2);
-                String direccion_obtenido = universidad.getString(3);
-                String email_obtenido = universidad.getString(4);
-                System.out.println(" Nit: " + nit_obtenido + "\n Nombre: " + nombre_obtenido + "\n Direccion: " + direccion_obtenido + "\n Email: " + email_obtenido);
-                System.out.println(" ----------------------------------------------------- ");
+            if(universidad != null){
+                System.out.println("\n---------------UNIVERSIDADES-------------------------");
+                while( universidad.next()){
+                    String nit_obtenido = universidad.getString(1);
+                    String nombre_obtenido = universidad.getString(2);
+                    String direccion_obtenido = universidad.getString(3);
+                    String email_obtenido = universidad.getString(4);
+                    System.out.println(" Nit: " + nit_obtenido + "\n Nombre: " + nombre_obtenido + "\n Direccion: " + direccion_obtenido + "\n Email: " + email_obtenido);
+                    System.out.println(" ----------------------------------------------------- ");
+                }
+            }else{
+                ConsultarUniversidad();
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Ups! No se pudo consultar la Universidad " + nombre);
+        }
+        String mensaje = "\n Desea consultar otra universidad";
+        mensaje += "\n 1) Consultar";
+        mensaje += "\n-1) Salir";
+        mensaje += "\n>>> ";
+        int opcion = 0;
+        Menu menu = new Menu(uController);
+        try {
+            while(opcion != -1){
+                System.out.print(mensaje);
+                opcion = sc.nextInt();
+                switch (opcion){
+                    case 1:
+                    ConsultarUniversidad();
+                    break;
+                    case -1:
+                    menu.MenuPrincipal(conexion);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 //#endregion
@@ -199,14 +237,18 @@ public class UniversidadView {
         String nit = sc.next();
         ResultSet uni = uController.ReadUniversidadByNit(conexionDB, nit);
         try {
-            System.out.println("\n--------------- Universidad seleccionada ---------------------");
-            while(uni.next()){
-                String nit_uni = uni.getString(1);
-                String nombre_uni = uni.getString(2);
-                String dir_uni = uni.getString(3);
-                String email_uni = uni.getString(4);
-                System.out.println(" Nit: " + nit_uni + "\n Nombre: " + nombre_uni + "\n Direccion: " + dir_uni + "\n Email: " + email_uni);
-                System.out.println(" ----------------------------------------------------- ");
+            if(uni != null){
+                System.out.println("\n--------------- Universidad seleccionada ---------------------");
+                while(uni.next()){
+                    String nit_uni = uni.getString(1);
+                    String nombre_uni = uni.getString(2);
+                    String dir_uni = uni.getString(3);
+                    String email_uni = uni.getString(4);
+                    System.out.println(" Nit: " + nit_uni + "\n Nombre: " + nombre_uni + "\n Direccion: " + dir_uni + "\n Email: " + email_uni);
+                    System.out.println(" ----------------------------------------------------- ");
+                }
+            }else{
+                ActualizarUniversidad();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -225,7 +267,7 @@ public class UniversidadView {
         sc.nextLine();
         boolean universidad = uController.UpdateUniversidadByNit(conexionDB, nombre.toUpperCase(), nit, direccion, email);
         if(universidad){
-            System.out.println("Universidad " + nit + " actualizada exitosamente");
+            System.out.println("\nUniversidad " + nit + " actualizada exitosamente");
             System.out.println("\n------------------ Universidad actualizada ------------- ");
             System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
             System.out.println(" ----------------------------------------------------- ");
@@ -233,6 +275,28 @@ public class UniversidadView {
         else{
             System.out.println("Ups! No se pudo actualizar la univesidad");
         }
+        String mensaje = "\n Desea actulizar otra universidad";
+        mensaje += "\n 1) Consultar";
+        mensaje += "\n-1) Salir";
+        mensaje += "\n>>> ";
+        int opcion = 0;
+        Menu menu = new Menu(uController);
+        try {
+            while(opcion != -1){
+                System.out.print(mensaje);
+                opcion = sc.nextInt();
+                switch (opcion){
+                    case 1:
+                    ActualizarUniversidad();
+                    break;
+                    case -1:
+                    menu.MenuPrincipal(conexion);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }       
     }
 
     public void ActualizarXNombre(Scanner sc, ConexionDB conexionDB){
@@ -243,14 +307,18 @@ public class UniversidadView {
         sc.nextLine();
         ResultSet uni = uController.ReadUniversidadByName(conexionDB, nombre);
         try {
-            System.out.println("\n--------------- Universidad seleccionada ---------------------");
-            while(uni.next()){
-                String nit_uni = uni.getString(1);
-                String nombre_uni = uni.getString(2);
-                String dir_uni = uni.getString(3);
-                String email_uni = uni.getString(4);
-                System.out.println(" Nit: " + nit_uni + "\n Nombre: " + nombre_uni + "\n Direccion: " + dir_uni + "\n Email: " + email_uni);
-                System.out.println(" ----------------------------------------------------- ");
+            if(uni != null){
+                System.out.println("\n--------------- Universidad seleccionada ---------------------");
+                while(uni.next()){
+                    String nit_uni = uni.getString(1);
+                    String nombre_uni = uni.getString(2);
+                    String dir_uni = uni.getString(3);
+                    String email_uni = uni.getString(4);
+                    System.out.println(" Nit: " + nit_uni + "\n Nombre: " + nombre_uni + "\n Direccion: " + dir_uni + "\n Email: " + email_uni);
+                    System.out.println(" ----------------------------------------------------- ");
+                }
+            }else{
+                ActualizarUniversidad();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -268,14 +336,35 @@ public class UniversidadView {
         sc.nextLine();
         boolean result = uController.UpdateUniversidadByName(conexionDB, nombre, nit, direccion, email);
         if(result){
-            System.out.println("Universidad " + nombre + " actualizada exitosamente");
+            System.out.println("\nUniversidad " + nombre + " actualizada exitosamente");
             System.out.println("\n------------------ Universidad actualizada ------------- ");
             System.out.println(" Nit: " + nit + "\n Nombre: " + nombre + "\n Direccion: " + direccion + "\n Email: " + email);
             System.out.println(" ----------------------------------------------------- ");
         }else{
             System.out.println("Ups! No se pudo actualizar la univesidad");
         }
-
+        String mensaje = "\n Desea actulizar otra universidad";
+        mensaje += "\n 1) Consultar";
+        mensaje += "\n-1) Salir";
+        mensaje += "\n>>> ";
+        int opcion = 0;
+        Menu menu = new Menu(uController);
+        try {
+            while(opcion != -1){
+                System.out.print(mensaje);
+                opcion = sc.nextInt();
+                switch (opcion){
+                    case 1:
+                    ActualizarUniversidad();
+                    break;
+                    case -1:
+                    menu.MenuPrincipal(conexion);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
     }
 //#endregion
 
@@ -290,6 +379,7 @@ public void EliminarUniversidad(){
 
     int opcion = 0;
     Scanner sc = new Scanner(System.in);
+    Menu menu = new Menu(uController);
     try {
         while(opcion != -1){
             System.out.print(mensaje);
@@ -297,6 +387,7 @@ public void EliminarUniversidad(){
             switch (opcion){
                 case 1:
                 uController.DeleteAllUniversidades(conexion);
+                menu.MenuPrincipal(conexion);
                 break;
                 case 2:
                 EliminarXNit(sc, conexion);
@@ -320,14 +411,18 @@ public void EliminarXNit(Scanner sc, ConexionDB conexionDB){
     sc.nextLine();
     ResultSet universidad = uController.ReadUniversidadByNit(conexion, nit);
     try {
-        System.out.println("\n--------------- Universidad seleccionada ------------- ");
-        while( universidad.next()){
-            String nit_obtenido = universidad.getString(1);
-            String nombre_obtenido = universidad.getString(2);
-            String direccion_obtenido = universidad.getString(3);
-            String email_obtenido = universidad.getString(4);
-            System.out.println(" Nit: " + nit_obtenido + "\n Nombre: " + nombre_obtenido + "\n Direccion: " + direccion_obtenido + "\n Email: " + email_obtenido);
-            System.out.println(" ----------------------------------------------------- ");
+        if(universidad != null){
+            System.out.println("\n--------------- Universidad seleccionada ------------- ");
+            while( universidad.next()){
+                String nit_obtenido = universidad.getString(1);
+                String nombre_obtenido = universidad.getString(2);
+                String direccion_obtenido = universidad.getString(3);
+                String email_obtenido = universidad.getString(4);
+                System.out.println(" Nit: " + nit_obtenido + "\n Nombre: " + nombre_obtenido + "\n Direccion: " + direccion_obtenido + "\n Email: " + email_obtenido);
+                System.out.println(" ----------------------------------------------------- ");
+            }
+        }else{
+            EliminarUniversidad();
         }
     } catch (Exception e) {
         e.printStackTrace();
@@ -339,26 +434,26 @@ public void EliminarXNit(Scanner sc, ConexionDB conexionDB){
 
     String mensaje2 = "\nDesea eliminar otra universidad";
     mensaje2 += "\n 1) Eliminar";
-    mensaje2 += "\n -1) Salir";
+    mensaje2 += "\n-1) Salir";
     mensaje2 += "\n  >>> ";
 
     int opcion = 0;
-    Scanner sca = new Scanner(System.in);
+    Menu menu = new Menu(uController);
     try {    
         while(opcion != -1){
             System.out.print(mensaje);
-            opcion = sca.nextInt();
+            opcion = sc.nextInt();
             switch (opcion){
                 case 1:
                 uController.DeleteUniversidadByNit(conexionDB, nit);
                 System.out.print(mensaje2);
-                opcion = sca.nextInt();
+                opcion = sc.nextInt();
                 switch (opcion){
                     case 1:
-                    EliminarXNit(sca, conexionDB);
+                    EliminarUniversidad();;
                     break;
                     case -1:
-                    EliminarUniversidad();
+                    menu.MenuPrincipal(conexionDB);
                     break;
                 }
                 break;
@@ -376,14 +471,18 @@ public void EliminarXNombre(Scanner sc, ConexionDB conexionDB){
     String nombre = sc.next();
     ResultSet universidad = uController.ReadUniversidadByName(conexionDB, nombre.toUpperCase());
     try {
-        while (universidad.next()){
-            String nit_read = universidad.getString("nit");
-            String nombre_read = universidad.getString("nombre");
-            String direccion_read = universidad.getString("direccion");
-            String email_read = universidad.getString("email");
-            System.out.println("\n--------------- Universidad seleccionada -------------- ");
-            System.out.println("Nit: "+ nit_read + "\nNombre: " + nombre_read + "\nDirección: " + direccion_read + "\nEmail: " + email_read);
-            System.out.println("--------------------------------------------------- ");
+        if(universidad != null){
+            while (universidad.next()){
+                String nit_read = universidad.getString("nit");
+                String nombre_read = universidad.getString("nombre");
+                String direccion_read = universidad.getString("direccion");
+                String email_read = universidad.getString("email");
+                System.out.println("\n--------------- Universidad seleccionada -------------- ");
+                System.out.println("Nit: "+ nit_read + "\nNombre: " + nombre_read + "\nDirección: " + direccion_read + "\nEmail: " + email_read);
+                System.out.println("--------------------------------------------------- ");
+            }
+        }else{
+            EliminarUniversidad();
         }
     } catch (SQLException e) {
         e.printStackTrace();
@@ -399,22 +498,22 @@ public void EliminarXNombre(Scanner sc, ConexionDB conexionDB){
     mensaje2 += "\n-1) Cancelar ";
     mensaje2 += "\n>>> "; 
     int opcion = 0;
-    Scanner scn = new Scanner(System.in);
+    Menu menu = new Menu(uController);
     try {
         while(opcion != -1){
-            System.out.println(mensaje);
+            System.out.print(mensaje);
             opcion = sc.nextInt();
             switch(opcion){
                 case 1:
                 uController.DeleteUniversidadByName(conexionDB, nombre.toUpperCase());
-                System.out.println(mensaje2);
+                System.out.print(mensaje2);
                 opcion = sc.nextInt();
                 switch(opcion){
                     case 1:
-                    EliminarXNombre(scn, conexionDB);
+                    EliminarUniversidad();
                     break;
                     case -1:
-                    EliminarUniversidad();
+                    menu.MenuPrincipal(conexionDB);
                     break;
                 }
                 break;

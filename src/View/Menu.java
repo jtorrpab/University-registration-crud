@@ -16,11 +16,11 @@ public class Menu {
 
         UniversidadView uView = new UniversidadView(uController, conexion);
         String mensaje =  "\n---------------BIENVENIDOS--------------------\n";
-        mensaje += "1) Crear universidad\n";
-        mensaje += "2) Mostrar todas las univerisdades\n";
-        mensaje += "3) Consultar universidad\n";
-        mensaje += "4) Actualizar universidad\n";
-        mensaje += "5) Eliminar universidad\n";
+        mensaje += " 1) Crear universidad\n";
+        mensaje += " 2) Mostrar todas las univerisdades\n";
+        mensaje += " 3) Consultar universidad\n";
+        mensaje += " 4) Actualizar universidad\n";
+        mensaje += " 5) Eliminar universidad\n";
         mensaje += "-1) Salir\n";
         mensaje += ">>> ";
 
