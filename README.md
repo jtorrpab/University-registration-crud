@@ -5,17 +5,14 @@
 <img src="https://img.shields.io/badge/Licnese-MIT-blue">
 <img src="https://img.shields.io/badge/Release%20date-February%202023-yellowgreen">
 </p>
-<br>
 <h2>Descripción del proyecto</h2>
 <p>
 En este proyecto encontraras un CRUD para registro de universidades, es decir, podrás realizar las funciones de un CRUD con una universidad existente o no. Este CRUD se realizó con el objetivo de aprender el leguaje de programación JAVA y poner en practica los temas aprendidos. 
 </p>
-<br>
 <h2>Descripción del proyecto</h2>
 <p>
 Cuenta con las carecteristicas básicas de un CRUD (Create, Read, Update and Delete), mediante atributos como nombre de la universidad o nit de la universidad, esto dependerá del metodo seleccionado, así como también cuenta con un módulo de vista, que permite moverse a través del crud con el teclado numérico.
 </p>
-<br>
 <h2>Tecnologías usadas</h2>
 - JAVA 8<br>
 - Data Acces Objet (Dao)<br>
@@ -23,12 +20,10 @@ Cuenta con las carecteristicas básicas de un CRUD (Create, Read, Update and Del
 - Gestor DB: Dbeaver<br>
 - Modelo - Vista - Controlador (MVC)<br>
 - IDE: Visual Studio Code<br>
-<br>
 <h2>Autores</h2>
 <p>
 - Juan Pablo Torres 
 </p>
-<br>
 <h2>Licencia</h2>
 <p>
 - MIT
