@@ -24,7 +24,4 @@ Cuenta con las carecteristicas básicas de un CRUD (Create, Read, Update and Del
 <p>
 - Juan Pablo Torres 
 </p>
-<h2>Licencia</h2>
-<p>
-- MIT
-</p>
+
