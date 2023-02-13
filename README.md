@@ -20,6 +20,18 @@ Cuenta con las carecteristicas básicas de un CRUD (Create, Read, Update and Del
 - Gestor DB: Dbeaver<br>
 - Modelo - Vista - Controlador (MVC)<br>
 - IDE: Visual Studio Code<br>
+<h2>Extensiones</h2>
+<p>
+- Extension Pack for Java<br>
+- Debugger for Java<br>
+- Project Manager for Java<br>
+- Test Runner for Java <br>
+</p>
+<h2>Conexión DB</h2>
+<p>
+- JDBC 3.8.11.2.jar<br>
+- Tener la DB en la raíz del proyecto<br>
+</p>
 <h2>Autores</h2>
 <p>
 - Juan Pablo Torres 
